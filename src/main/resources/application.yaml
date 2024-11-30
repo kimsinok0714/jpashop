@@ -1,40 +1,46 @@
 
 # MySQL 설정 
 spring:
+  application:
+    name: jpashop
+
   datasource:   
     url: jdbc:mysql://127.0.0.1:3306/jpashop_db
     username: root
     password: 1234   
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    
+    driver-class-name: com.mysql.cj.jdbc.Driver    
     
   jpa:
     hibernate:
-      ddl-auto: create   # create-drop : Application이 종료 될 때 모든 테이블을 drop 시켜준다.
-    show-sql: true      
+      ddl-auto: update   # create-drop : Application이 종료 될 때 모든 테이블을 drop 시켜준다.    
+    # show-sql: true     # 콘솔에 출력
     properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQLDialect
-        
+      hibernate:       
+        format_sql: true
+   
+  # Chrome Extension Install : RemoteLiveReload 
+  devtools:
+    restart:
+      enabled: true
+    livereload:
+      enabled: true
 
+
+# Logging
 logging:
-  level:
-    org:
-      hibernate:
-        SQL: DEBUG
-        type:
-          descriptor:
-            sql:
-              BasicBinder: TRACE
+  level:   
+    org.hibernate.SQL: debug          # 로그로 출력
+    org.hibernate.orm.jdbc.bind: trace   # 중요 : 바인딩된 값 출력
 
-# logging:
-#   file:
-#     name: logs/apigateway.log
-#     max-size: 500MB
-#     max-history: 10
-#   level:
-#     root: info
-#     '[com.mzc.apigateway_server]': debug
-#     '[org.springframework.web]': DEBUG
-#     '[reactor.core.publisher.Operators]': DEBUG
-#     '[reactor]': DEBUG
+
+# Actuator
+# http://localhost:8080/actuator
+management:
+  endpoints:
+    web:      
+      exposure:
+        include: 
+          - health
+          - metrics
+          - info
+          - en
