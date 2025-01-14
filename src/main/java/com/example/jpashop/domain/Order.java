@@ -57,11 +57,11 @@ public class Order {
         this.member.getOrders().add(this);
     }
 
-    // 연관 관계 메소드
-    public void addOrderItem(OrderItem orderItem) {
-        orderItem.setOrder(this);
-        orderItems.add(orderItem);
-    }
+    // 연관 관계 메소드 (확인해볼것!!)
+    // public void addOrderItem(OrderItem orderItem) {
+    //     orderItem.setOrder(this);
+    //     orderItems.add(orderItem);
+    // }
 
     // 연관 관계 메소드
     public void setDelivery(Delivery delivery) {
