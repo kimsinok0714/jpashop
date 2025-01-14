@@ -35,6 +35,13 @@ public abstract class Item {
     private int price;
     private int stockQuantity;
 
+
+    // 확인해 볼것!!
+    @OneToMany(mappedBy = "item")
+    private List<OrderItem> orderItems = new ArrayList<>();
+
+
+    
     @ManyToMany(mappedBy = "items")
     private List<Category> categories = new ArrayList<>();
 
