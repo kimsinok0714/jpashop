@@ -37,6 +37,7 @@ public abstract class Item {
 
 
     // 확인해 볼것!!
+    // 1:N 단방향인 경우 이 코드는 필요 없음
     @OneToMany(mappedBy = "item")
     private List<OrderItem> orderItems = new ArrayList<>();
 
