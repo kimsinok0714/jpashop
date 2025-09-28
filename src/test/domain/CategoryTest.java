@@ -78,10 +78,10 @@ public class CategoryTest {
         musicCategory.setName("음반");
         
         Book book = new Book();
-        book.setName("Spring Boot 완벽 가이드");
+        book.setName("Spring Boot");
         book.setPrice(30000);
         book.setStockQuantity(100);
-        book.setAuthor("김영한");
+        book.setAuthor("홍길동동");
         book.setIsbn("978-1234567890");
         
         Album album = new Album();
