@@ -23,9 +23,9 @@ import static org.assertj.core.api.Assertions.*;
 @SpringBootTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Transactional
-public class MemberServiceTest {
+public class MemberRepositoryTest {
     @Autowired
-    private MemberService memberService;
+    private MemberRepository memberRepository;
 
     @Test
     @Rollback(false)
@@ -36,8 +36,8 @@ public class MemberServiceTest {
         member.setAddress(new Address("서울시", "강남로", "1234"));
 
         // when
-        Long savedId = memberService.createMember(member);
-
+         memberRepository.save(member);
+     
         // then
         assertThat(member.getId()).isNotNull();
     }
