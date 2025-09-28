@@ -1,12 +1,9 @@
 package com.example.jpashop.repository;
 
 import java.util.List;
-
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
-
 import com.example.jpashop.domain.Order;
-
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
