@@ -23,7 +23,6 @@ import jakarta.transaction.Transactional;
 @SpringBootTest
 @Transactional
 public class OrderServiceTest {
-
     @Autowired
     EntityManager em;
     @Autowired
@@ -31,6 +30,47 @@ public class OrderServiceTest {
     @Autowired
     OrderRepository orderRepository;
 
+    // 상품 주문
+    @Test
+    @Rollback(value = false)
+    void testOrder() {
+        //given
+        OrderRequestDto orderRequestDto = new OrderRequestDto();
+        orderRequestDto.setMemberId(1L);
+
+        List<OrderItemRequest> orderItems = new ArrayList<>();
+        orderItems.add(new OrderItemRequest(1L, 10));
+        orderItems.add(new OrderItemRequest(52L, 10));
+
+        orderRequestDto.setOrderItems(orderItems);
+
+        //when
+        Long id = orderService.order(orderRequestDto);
+
+        //then
+        Order foundOrder = orderService.retrieveOrder(id);
+
+        assertThat(foundOrder).isNotNull();
+        assertThat(foundOrder.getStatus()).as("상품 주문 상태는 ORDER이어야 합니다.").isEqualTo(OrderStatus.ORDER);   
+        assertThat(foundOrder.getOrderItems().size()).as("주문한 상품 종류의 수가 정확해야 합니다").isEqualTo(2);   
+    }
+
+    //주문 취소
+    @Test
+    @Rollback(value = false)
+    void testCancelOrder() {
+        //given
+        Long orderId = 7L;
+        
+        //when
+        orderService.cancelOrder(orderId);
+        
+        //then
+        //assertEquals("주문 취소 시 주문 상태는 CANCEL이어야 한다", OrderStatus.CANCEL, findOrder.getStatus());
+        //assertEquals("주문 취소 시 상품의 재고가 증가해야 한다.", 10, book.getStockQuantity());
+    }
+
+    
     @Test
     public void 상품주문() throws Exception {
         // given
