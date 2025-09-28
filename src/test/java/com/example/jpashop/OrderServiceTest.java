@@ -18,7 +18,8 @@ import com.example.jpashop.service.OrderService;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
-@RunWith(SpringRunner.class)
+
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @SpringBootTest
 @Transactional
 public class OrderServiceTest {
