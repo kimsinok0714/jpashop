@@ -6,7 +6,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
 import com.example.jpashop.domain.Address;
 import com.example.jpashop.domain.Member;
 import com.example.jpashop.domain.Order;
@@ -16,7 +15,6 @@ import com.example.jpashop.domain.item.Item;
 import com.example.jpashop.exception.NotEnoughStockException;
 import com.example.jpashop.repository.OrderRepository;
 import com.example.jpashop.service.OrderService;
-
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
