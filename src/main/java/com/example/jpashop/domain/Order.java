@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.lang.IllegalStateException;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -39,7 +38,7 @@ public class Order {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)   // CascadeType.PERSIST
     private List<OrderItem> orderItems = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)  // CascadeType.PERSIST
@@ -69,38 +68,30 @@ public class Order {
         this.delivery.setOrder(this);
     }
 
-    // 생성 메소드
-
-    public static Order createOrder(Member member, Delivery delivery, OrderItem... orderItems) {
+    // 비즈니스 로직
+    // 주문 생성
+    public static Order createOrder(Member member, Delivery delivery, List<OrderItem> orderItems) {
         Order order = new Order();
         order.setMember(member);
-        order.setDelivery(delivery);
-        for (OrderItem orderItem : orderItems) {
-            order.addOrderItem(orderItem);
-        }
+        order.setDelivery(delivery);      
         order.setStatus(OrderStatus.ORDER);
         order.setOrderDate(LocalDateTime.now());
+        orderItems.forEach(order::addOrderItem);   // foreign key  설정  : 중요
         return order;
     }
 
-    // 비즈니스 로직
-
     // 주문 취소
-
     public void cancel() {
         if (delivery.getStatus() == DeliveryStatus.COMPLETE) {
             throw new IllegalStateException("이미 배송완료된 상품은 취소가 불가능합니다.");
         }
-
         this.setStatus(OrderStatus.CANCEL);
 
-        for (OrderItem orderItem : orderItems) {
-            orderItem.cancel();
-        }
+        //orderItems.forEach(orderItem -> orderItem.cancel());
+        orderItems.forEach(OrderItem::cancel);
     }
 
     // 전체 주문가격 조회
-
     public int getTotalPrice() {
         int totalPrice = 0;
         for (OrderItem orderItem : orderItems) {
