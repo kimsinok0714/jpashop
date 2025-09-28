@@ -2,35 +2,33 @@ package com.example.jpashop.domain.item;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import com.example.jpashop.domain.Category;
 import com.example.jpashop.exception.NotEnoughStockException;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
-
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
-
 import jakarta.persistence.ManyToMany;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE) // 전략
 @DiscriminatorColumn(name = "dtype")
-@Setter
-@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Setter @Getter
 public abstract class Item {
 
     @Id
     @GeneratedValue
     @Column(name = "item_id")
     private Long id;
-
     private String name;
     private int price;
     private int stockQuantity;
@@ -40,25 +38,18 @@ public abstract class Item {
     // 1:N 단방향인 경우 이 코드는 필요 없음
     @OneToMany(mappedBy = "item")
     private List<OrderItem> orderItems = new ArrayList<>();
-
-
     
     @ManyToMany(mappedBy = "items")
     private List<Category> categories = new ArrayList<>();
 
-    // 비즈니스 로직
-    /*
-     * 재고 수량 증가
-     */
+    // 비즈니스 로직    
+    // 재고 수량 증가
     public void addStock(int quantity) {
         this.stockQuantity += quantity;
     }
 
-    /*
-     * 재고 수량 감소
-     */
+    // 재고 수량 감소
     public void removeStock(int quantity) {
-
         int restQunatity = this.stockQuantity - quantity;
 
         if (restQunatity < 0) {
@@ -66,6 +57,13 @@ public abstract class Item {
         }
 
         this.stockQuantity -= quantity;
+    }
+
+    // 상품 정보 변경
+    public void change(String name, int price, int stockQuantity) {
+        this.setName(name);
+        this.setPrice(price);
+        this.setStockQuantity(stockQuantity);
     }
 
 }
