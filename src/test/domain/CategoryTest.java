@@ -101,9 +101,9 @@ public class CategoryTest {
         em.persist(bookCategory);
         em.persist(musicCategory);
         em.persist(book);
-        em.persist(album);
-        em.flush();
-        em.clear();
+        em.persist(album);  // album을 영속성 컨텍스트에 등록
+        em.flush();         // DB에 즉시 반영 (INSERT)
+        em.clear();         // 영속성 컨텍스트 초기화, album은 더 이상 관리되지 않음
 
         // then
         Category foundBookCategory = em.find(Category.class, bookCategory.getId());
