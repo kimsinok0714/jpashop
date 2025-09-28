@@ -1,7 +1,6 @@
 package com.example.jpashop.domain;
 
 import com.example.jpashop.domain.item.Item;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -37,25 +36,22 @@ public class OrderItem {
 
     private int count;
 
-    // 생성 메소드
+    // 비즈니스 로직
+    // 주문 항목 생성  
     public static OrderItem createOrderItem(Item item, int orderPrice, int count) {
         OrderItem orderItem = new OrderItem();
         orderItem.setItem(item);
         orderItem.setOrderPrice(orderPrice);
         orderItem.setCount(count);
-
+        // 주문 항목의 재고량을 변경한다.
         item.removeStock(count);
-
         return orderItem;
     }
 
-    // 비즈니스 로직
-
+    // 주문 취소
     public void cancel() {
         this.getItem().addStock(this.count);
     }
-
-    // 조회 로직
 
     public int getTotalPrice() {
         return this.orderPrice * this.count;
