@@ -1,7 +1,5 @@
 package com.example.jpashop.service;
-
 import java.util.List;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.example.jpashop.domain.Delivery;
@@ -13,20 +11,19 @@ import com.example.jpashop.repository.ItemRepository;
 import com.example.jpashop.repository.MemberRepository;
 import com.example.jpashop.repository.OrderRepository;
 import com.example.jpashop.repository.OrderSearch;
-
 import lombok.RequiredArgsConstructor;
 
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class OrderService {
-
+    //DI
     private final OrderRepository orderRepository;
     private final MemberRepository memberRepository;
     private final ItemRepository itemRepository;
 
     // 주문 생성
-    @Transactional
+    @Transactional(readOnly = false)
     public Long order(Long memberId, Long itemId, int count) {
         Member member = memberRepository.findOne(memberId);
 
@@ -35,9 +32,19 @@ public class OrderService {
         Delivery delivery = new Delivery();
         delivery.setAddress(member.getAddress());
 
-        OrderItem orderItem = OrderItem.createOrderItem(item, item.getPrice(), count);
+        // OrderItem orderItem = OrderItem.createOrderItem(item, item.getPrice(), count);
+        
+        List<OrderItem> orderItems = new ArrayList<>();
+        
+        orderRequestDto.getOrderItems().forEach(orderItem -> {
 
-        Order order = Order.createOrder(member, delivery, orderItem);
+            Item item = itemRepository.findOne(orderItem.getItemId());            
+
+            orderItems.add(OrderItem.createOrderItem(item, item.getPrice(), orderItem.getCount()));
+
+        });
+
+        Order order = Order.createOrder(member, delivery, orderItems);
 
         // 주문 저장
         // Order 클래스에 OrderItem, Delivery에 대해 cascade = CascadeType.ALL 옵션을 설정하였기 때문에
