@@ -40,9 +40,15 @@ public class Category {
     private List<Category> child = new ArrayList<>();
 
     // 연관 관계 메소드
-    public void addChild(Category child) {
-        this.child.add(this);
-        child.setParent(this);
+    public void addItem(Item item) {
+        items.add(item);
+        item.getCategories().add(this);
     }
+
+    public void addChildCategory(Category childCategory) {
+        child.add(childCategory);
+        childCategory.setParent(this);
+    }
+
 
 }
