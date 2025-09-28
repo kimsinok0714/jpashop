@@ -2,14 +2,11 @@ package com.example.jpashop.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.example.jpashop.domain.item.Book;
 import com.example.jpashop.domain.item.Item;
 import com.example.jpashop.repository.ItemRepository;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import java.util.List;
 
 @Slf4j
@@ -21,8 +18,9 @@ public class ItemService {
     private final ItemRepository itemRepository;
 
     @Transactional
-    public void saveItem(Item item) {
+    public Long createItem(Item item) {
         itemRepository.save(item);
+        return item.getId();
     }
 
     public Item findItem(Long id) {
@@ -41,13 +39,14 @@ public class ItemService {
         // 영속성 엔티티
         // 트랜잭션이 커밋되면 JPA는 flush()를 수행한다.
         // 영속성 컨텍스트 중에 변경된 내용을 찾아서 DB에 업데이트를 수행한다.
-        Item findItem = itemRepository.findOne(itemId);
+        Item foundItem = itemRepository.findOne(itemId);
 
-        // findItem.change() 코드로 변경
-        findItem.setPrice(price);
-        findItem.setName(name);
-        findItem.setStockQuantity(stockQuantity);
-        findItem.setPrice(price);
+        // foundItem.change() 코드로 변경
+        // foundItem.setPrice(price);
+        // foundItem.setName(name);
+        // foundItem.setStockQuantity(stockQuantity);
+        // foundItem.setPrice(price);
+        foundItem.change(name, price, stockQuantity);
 
     }
 
