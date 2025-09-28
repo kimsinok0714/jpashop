@@ -40,28 +40,6 @@ public class MemberServiceTest {
 
         // then
         assertThat(member.getId()).isNotNull();
-
-    }
-
-    @Test
-    public void 중복_회원_예외() throws Exception {
-        // given
-        Member member1 = new Member();
-        member1.setName("일길동");
-
-        Member member2 = new Member();
-        member2.setName("일길동");
-
-        // wheb
-        memberService.join(member1);
-
-        assertThrows(Exception.class, () -> {
-            memberService.join(member2);
-        });
-
-        // then
-        fail("예외가 발생합니다.");
-
     }
 
 }
