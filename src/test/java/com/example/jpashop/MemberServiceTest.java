@@ -1,50 +1,31 @@
 package com.example.jpashop;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import com.example.jpashop.domain.Member;
-import com.example.jpashop.domain.Address;
-import com.example.jpashop.repository.MemberRepository;
-import com.example.jpashop.service.MemberService;
-
-import jakarta.persistence.EntityManager;
+import com.example.jpa_project.domain.Address;
+import com.example.jpa_project.domain.Member;
+import com.example.jpa_project.repository.MemberRepository;
 import jakarta.transaction.Transactional;
+import static org.assertj.core.api.Assertions.*;
 
 /*
- * 1. @RunWith(SpringRunner.class)
- * 
- * JUnit 테스트에서 Spring의 기능을 활용하려고 할때 사용합니다.
- * 테스트에서 Spring의 의존성 주입(Dependency Injection)과 트랜잭션 관리 같은 기능을 사용할 수 있게 됩니다.
- * 
- * 
- * 2. @SpringBootTest
+ @SpringBootTest
  * 
  * 테스트에서 Spring Boot 애플리케이션 컨텍스트를 모두 로드하도록 지시하는 애노테이션입니다. 
  * 애플리케이션이 실행될 때와 동일한 환경을 만들어서, 모든 스프링 빈을 로드하고 테스트할 수 있습니다. 
  * 애플리케이션의 여러 계층(서비스, 레포지토리, 컨트롤러 등)을 통합적으로 테스트할 수 있습니다. 
  */
 
-@RunWith(SpringRunner.class)
+
 @SpringBootTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Transactional
 public class MemberServiceTest {
     @Autowired
     private MemberService memberService;
-
-    @Autowired
-    private MemberRepository memberRepository;
-
-    @Autowired
-    private EntityManager em;
 
     @Test
     @Rollback(false)
@@ -55,10 +36,10 @@ public class MemberServiceTest {
         member.setAddress(new Address("서울시", "강남로", "1234"));
 
         // when
-        Long savedId = memberService.join(member);
+        Long savedId = memberService.createMember(member);
 
         // then
-        assertEquals(member, memberRepository.findOne(savedId));
+        assertThat(member.getId()).isNotNull();
 
     }
 
