@@ -34,21 +34,16 @@ public class OrderService {
 
         // OrderItem orderItem = OrderItem.createOrderItem(item, item.getPrice(), count);
         
-        List<OrderItem> orderItems = new ArrayList<>();
-        
+        List<OrderItem> orderItems = new ArrayList<>();        
         orderRequestDto.getOrderItems().forEach(orderItem -> {
-
             Item item = itemRepository.findOne(orderItem.getItemId());            
-
             orderItems.add(OrderItem.createOrderItem(item, item.getPrice(), orderItem.getCount()));
-
         });
-
         Order order = Order.createOrder(member, delivery, orderItems);
 
         // 주문 저장
-        // Order 클래스에 OrderItem, Delivery에 대해 cascade = CascadeType.ALL 옵션을 설정하였기 때문에
-        // 주문 정보가 DB에 저장될 때 주문 상품과 배송지 정보도 함께 등록됩니다.
+        // Order 클래스에 OrderItem, Delivery에 대해 cascade = CascadeType.PERSIST 옵션을 설정하였기 때문에
+        // 주문 정보가 DB에 저장될 때 주문 항목과 배송지 정보도 함께 등록됩니다.
         orderRepository.save(order);
 
         return order.getId();
