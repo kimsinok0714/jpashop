@@ -23,7 +23,7 @@ public class OrderService {
     private final ItemRepository itemRepository;
 
 
-    //주문 생성
+    // 주문 생성
     // Order 클래스에 OrderItem, Delivery에 대해 cascade = CascadeType.PERSIST 옵션을 설정하였기 때문에
     // 주문 정보가 DB에 저장될 때 주문 항목과 배송지 정보도 함께 등록됩니다.
     @Transactional(readOnly = false)
