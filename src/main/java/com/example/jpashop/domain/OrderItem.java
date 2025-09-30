@@ -52,7 +52,7 @@ public class OrderItem {
         orderItem.setItem(item);
         orderItem.setOrderPrice(orderPrice);
         orderItem.setCount(count);
-        // 주문 항목의 재고량을 변경한다.
+        // 주문 항목의 재고량을 변경한다. (주문한 수량 만큼 상품의 재고량을 감소한다.)
         item.removeStock(count);
         return orderItem;
     }
