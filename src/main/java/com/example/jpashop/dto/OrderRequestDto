@@ -1,0 +1,24 @@
+package com.example.jpa_project.dto;
+
+import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class OrderRequestDto {
+    
+    private Long memberId;
+    private List<OrderItemRequest> orderItems;
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class OrderItemRequest {
+        private Long itemId;
+        private int count;
+    }
+    
+}
