@@ -45,6 +45,7 @@ public class Category {
         item.getCategories().add(this);
     }
 
+    // 연관 관계 메소드 (중요)
     public void addChildCategory(Category childCategory) {
         child.add(childCategory);
         childCategory.setParent(this);
