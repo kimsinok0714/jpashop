@@ -89,7 +89,8 @@ public class Order {
         }
         this.setStatus(OrderStatus.CANCEL);
 
-        // orderItems.forEach(orderItem -> orderItem.cancel());
+        // orderItems.forEach(orderItem -> orderItem.cancel());  
+        // 상품의 재고량을 변경한다. (주문 취소한 수량 만큼 상품의 재고량을 증가시킨다.)
         orderItems.forEach(OrderItem::cancel);
     }
 
