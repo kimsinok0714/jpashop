@@ -70,12 +70,14 @@ public class Order {
 
     // 비즈니스 로직
     // 주문 생성
+    // 팩토리 메소드 : 객체 생성, 복잡한 초기화 (연관관계)를 설정
     public static Order createOrder(Member member, Delivery delivery, List<OrderItem> orderItems) {
         Order order = new Order();
-        order.setMember(member);
-        order.setDelivery(delivery);      
+        order.setMember(member);           
         order.setStatus(OrderStatus.ORDER);
         order.setOrderDate(LocalDateTime.now());
+        // 연관 관계 설정
+        order.setDelivery(delivery);  
         orderItems.forEach(order::addOrderItem);   // foreign key  설정  : 중요
         return order;
     }
